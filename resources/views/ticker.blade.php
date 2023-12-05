@@ -53,14 +53,15 @@
                     <hr class="divider" />
                 </div>
                 <div class="col-lg-8 align-self-baseline">
-                    <p class="text-white-75 mb-5">"Selamat datang di dunia finansial masa depan! Temukan potensi tak terbatas dengan berbagai instrumen, dari crypto hingga forex, di dashboard kami."</p>
+                    <p class="text-white-75 mb-5">"Selamat datang di dunia finansial masa depan! Temukan potensi tak
+                        terbatas dengan berbagai instrumen, dari crypto hingga forex, di dashboard kami."</p>
                     <a class="btn btn-primary btn-xl" href="#about">Find Out More</a>
                 </div>
             </div>
         </div>
     </header>
     <!-- About-->
-    <section class="page-section bg-primary" id="about">
+    <section class="page-section bg-secondary" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8 text-center">
@@ -95,38 +96,42 @@
     <!-- Portfolio-->
     <section id="page-section">
 
-        <div class="container">
-            <div class="embed-responsive embed-responsive-16by9">
-                <!-- TradingView Widget BEGIN -->
-                <div class="tradingview-widget-container embed-responsive-item">
-                    <div class="tradingview-widget-container__widget"></div>
-                    <div class="tradingview-widget-copyright">
-                        <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
-                            <span class="blue-text">Track all markets on TradingView</span>
-                        </a>
-                    </div>
-                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+                {
+                    "symbols": [{
+                            "proName": "FOREXCOM:SPXUSD",
+                            "title": "S&P 500"
+                        },
                         {
-                            "exchanges": [],
-                            "dataSource": "SPX500",
-                            "grouping": "sector",
-                            "blockSize": "market_cap_basic",
-                            "blockColor": "change",
-                            "locale": "en",
-                            "symbolUrl": "",
-                            "colorTheme": "light",
-                            "hasTopBar": false,
-                            "isDataSetEnabled": false,
-                            "isZoomEnabled": true,
-                            "hasSymbolTooltip": true,
-                            "width": 1300,
-                            "height": 1000
+                            "proName": "FOREXCOM:NSXUSD",
+                            "title": "US 100"
+                        },
+                        {
+                            "proName": "FX_IDC:EURUSD",
+                            "title": "EUR to USD"
+                        },
+                        {
+                            "proName": "BITSTAMP:BTCUSD",
+                            "title": "Bitcoin"
+                        },
+                        {
+                            "proName": "BITSTAMP:ETHUSD",
+                            "title": "Ethereum"
                         }
-                    </script>
-                </div>
-                <!-- TradingView Widget END -->
-            </div>
+                    ],
+                    "showSymbolLogo": true,
+                    "colorTheme": "light",
+                    "isTransparent": false,
+                    "displayMode": "adaptive",
+                    "locale": "en"
+                }
+            </script>
         </div>
+        <!-- TradingView Widget END -->
+
     </section>
     <!-- Call to action-->
     <section class="page-section bg-dark text-white">
@@ -157,39 +162,38 @@
                     });
                 </script>
             </div>
-
             <!-- Tabel Responsif -->
             <div class="table-responsive" id="tabel">
                 <table class="table table-striped" id="tickerTable">
                     <thead>
                         <tr>
+                            <th>Logo</th>
                             <th>Symbol</th>
                             <th>High</th>
                             <th>Low</th>
                             <th>Last</th>
                             <th>Buy</th>
                             <th>Sell</th>
-                            <th>Logo</th>
-                            <!-- Add the Logo column -->
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($binaryTree->inOrderTraversal() as $node)
+                        @foreach ($doublyLinkedList as $node)
                             <tr>
                                 <td>
-                                    @if (isset($node->ticker['url_logo']))
-                                        <img src="{{ $node->ticker['url_logo'] }}" alt="Logo" width="50"
+                                    @if (isset($node['ticker']['url_logo']))
+                                        <img src="{{ $node['ticker']['url_logo'] }}" alt="Logo" width="50"
                                             height="50" />
                                     @else
                                         No Logo Available
                                     @endif
                                 </td>
-                                <td>{{ $node->symbol }}</td>
-                                <td>{{ $node->ticker['high'] }}</td>
-                                <td>{{ $node->ticker['low'] }}</td>
-                                <td>{{ $node->ticker['last'] }}</td>
-                                <td>{{ $node->ticker['buy'] }}</td>
-                                <td>{{ $node->ticker['sell'] }}</td>
+
+                                <td>{{ $node['symbol'] }}</td>
+                                <td>{{ $node['ticker']['high'] }}</td>
+                                <td>{{ $node['ticker']['low'] }}</td>
+                                <td>{{ $node['ticker']['last'] }}</td>
+                                <td>{{ $node['ticker']['buy'] }}</td>
+                                <td>{{ $node['ticker']['sell'] }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -219,72 +223,17 @@
     <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
     <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
     <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    <!-- Sumber Daya jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Sumber Daya DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
     <script>
-        $(document).ready(function() {
-            // Memuat data ke dalam tabel
-            var binaryTree = new BinaryTree();
-            var rows = $("#tickerTable tbody tr");
-            rows.each(function() {
-                var symbol = $(this).find("td:nth-child(2)").text();
-                binaryTree.insert(symbol, this);
-            });
-            $("#tickerTable tbody").empty();
-            var sortedRows = binaryTree.inOrderTraversal();
-            $("#tickerTable tbody").append(sortedRows);
-
-            // Inisialisasi DataTables setelah memuat data
-            $("#tickerTable").DataTable();
-        });
-
-        function BinaryTree() {
-            this.root = null;
-        }
-
-        BinaryTree.prototype.insert = function(key, value) {
-            var newNode = {
-                key: key,
-                value: value,
-                left: null,
-                right: null
-            };
-            if (this.root === null) {
-                this.root = newNode;
-            } else {
-                this.insertNode(this.root, newNode);
-            }
-        };
-
-        BinaryTree.prototype.insertNode = function(node, newNode) {
-            if (newNode.key < node.key) {
-                if (node.left === null) {
-                    node.left = newNode;
-                } else {
-                    this.insertNode(node.left, newNode);
-                }
-            } else {
-                if (node.right === null) {
-                    node.right = newNode;
-                } else {
-                    this.insertNode(node.right, newNode);
-                }
-            }
-        };
-
-        BinaryTree.prototype.inOrderTraversal = function() {
-            var result = [];
-
-            function traverse(node) {
-                if (node !== null) {
-                    traverse(node.left);
-                    result.push(node.value);
-                    traverse(node.right);
-                }
-            }
-            traverse(this.root);
-            return result;
-        };
+        $(document).ready(function () {
+        $('#tickerTable').DataTable();
+    });
     </script>
 </body>
 

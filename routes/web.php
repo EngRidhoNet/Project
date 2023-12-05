@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TickerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/store-ticker-data', [TickerController::class, 'storeTickerData']);
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', 'App\Http\Controllers\HomeController@index');
 
-Route::get('/', 'App\Http\Controllers\TickerController@showTicker');
+
